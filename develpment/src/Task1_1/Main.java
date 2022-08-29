@@ -32,7 +32,7 @@ public class Main {
                         """,
                 findMin(array),
                 findMid(array),
-                findWeightedAverage(array),
+                findArithmeticMean(array),
                 findMax(array)
         );
 
@@ -128,7 +128,7 @@ public class Main {
         return midResult;
     }
 
-    public static float findWeightedAverage(int[][] array) {
+    public static float findArithmeticMean(int[][] array) {
         int sum = 0, counter = 0;
         for (int[] line : array) {
             for (int cell : line) {
