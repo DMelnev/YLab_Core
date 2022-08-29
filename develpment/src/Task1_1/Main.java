@@ -8,7 +8,7 @@ package Task1_1;
 
 public class Main {
     private static final int MIN_RANDOM_RANGE = -100;
-    private static final int MAX_RANDOM_RANGE = 900;
+    private static final int MAX_RANDOM_RANGE = 100;
     static final String ANSI_RESET = "\u001B[0m";
     static final String ANSI_RED = "\u001B[31m";
     static final String ANSI_BLUE = "\u001B[34m";
@@ -26,7 +26,7 @@ public class Main {
                                         
                         Minimum value is %d
                         Middle value is %d
-                        Weighted average value is %f
+                        Average mean value is %f
                         Maximum value is %d
                                         
                         """,
