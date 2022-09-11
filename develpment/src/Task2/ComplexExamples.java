@@ -1,4 +1,5 @@
 package Task2;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -164,8 +165,8 @@ public class ComplexExamples {
 
     }
 
-    static boolean fuzzySearch(String key, String string){
-        if (key == null || string == null){
+    static boolean fuzzySearch(String key, String string) {
+        if (key == null || string == null) {
             System.out.println("Data can't be null!");
             return false;
         }
@@ -174,16 +175,14 @@ public class ComplexExamples {
         String[] stringArray = string.split("");
         int index = 0;
 
-        for (String word: stringArray){
-            if (word.equals(keyArray[index])){
-                if (++index >= keyLength) return true;
-            }
+        for (String word : stringArray) {
+            if (word.equals(keyArray[index]) && ++index >= keyLength) return true;
         }
         return false;
     }
 
     static int[] getPairOfNumbersSum(int[] array, int sum) {
-        if (array == null){
+        if (array == null) {
             System.out.println("Array can't be null!");
             return null;
         }
