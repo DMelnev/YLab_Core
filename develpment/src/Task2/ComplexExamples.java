@@ -129,12 +129,22 @@ public class ComplexExamples {
         int[] array1 = new int[]{3, 4, 2, 7};
         int[] array2 = new int[]{12, 45, 0, -10};
         int[] array3 = new int[]{-20, 30, 18, 11, 1, 0};
+        int[] array4 = new int[100_000];
 
         System.out.println(Arrays.toString(array1) + ", 10 -> " + Arrays.toString(getPairOfNumbersSum(array1, 10)));
 
         assert Arrays.equals(new int[]{3, 7}, getPairOfNumbersSum(array1, 10));
         assert Arrays.equals(new int[]{45, -10}, getPairOfNumbersSum(array2, 35));
         assert Arrays.equals(new int[]{-20, 30}, getPairOfNumbersSum(array3, 10));
+
+        long firstTime = System.currentTimeMillis();
+        getPairOfNumbersSum(array4, 10);
+        long secondTime = System.currentTimeMillis();
+        System.out.println(secondTime - firstTime);
+        firstTime = System.currentTimeMillis();
+//
+        secondTime = System.currentTimeMillis();
+        System.out.println(secondTime - firstTime);
 
 
 
@@ -194,5 +204,6 @@ public class ComplexExamples {
         }
         return null;
     }
+
 }
 
