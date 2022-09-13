@@ -112,11 +112,15 @@ public class ComplexExamples {
                 Key: Jack
                 Value:1
          */
-        Arrays.stream(RAW_DATA)
-                .distinct()
-                .sorted(Comparator.comparing(Person::getId))
-                .collect(Collectors.groupingBy(Person::getName, Collectors.counting()))
-                .forEach((key, value) -> System.out.printf("Key: %s\nValue: %d\n", key, value));
+        if (RAW_DATA != null) {
+            Arrays.stream(RAW_DATA)
+                    .distinct()
+                    .sorted(Comparator.comparing(Person::getId))
+                    .collect(Collectors.groupingBy(Person::getName, Collectors.counting()))
+                    .forEach((key, value) -> System.out.printf("Key: %s\nValue: %d\n", key, value));
+        } else {
+            System.out.println("RAW DATA can't be null!");
+        }
         //к сожалению, сортировка которая была до группировки потерялась, тк группировка запихивает все в мап,
         //а мап не сохраняет порядок, но результат как задано...
 
@@ -129,24 +133,13 @@ public class ComplexExamples {
         int[] array1 = new int[]{3, 4, 2, 7};
         int[] array2 = new int[]{12, 45, 0, -10};
         int[] array3 = new int[]{-20, 30, 18, 11, 1, 0};
-        int[] array4 = new int[100_000];
+//        int[] array4 = new int[100_000];
 
         System.out.println(Arrays.toString(array1) + ", 10 -> " + Arrays.toString(getPairOfNumbersSum(array1, 10)));
 
         assert Arrays.equals(new int[]{3, 7}, getPairOfNumbersSum(array1, 10));
         assert Arrays.equals(new int[]{45, -10}, getPairOfNumbersSum(array2, 35));
         assert Arrays.equals(new int[]{-20, 30}, getPairOfNumbersSum(array3, 10));
-
-        long firstTime = System.currentTimeMillis();
-        getPairOfNumbersSum(array4, 10);
-        long secondTime = System.currentTimeMillis();
-        System.out.println(secondTime - firstTime);
-        firstTime = System.currentTimeMillis();
-//
-        secondTime = System.currentTimeMillis();
-        System.out.println(secondTime - firstTime);
-
-
 
         /*
         Task3
@@ -165,6 +158,7 @@ public class ComplexExamples {
         assert fuzzySearch("cartwheel", "cartwheel"); // true
         assert fuzzySearch("cartwheel", "cartwheel/*-!@#$%^&*()_+"); // true
         assert fuzzySearch("c@$+", "cartwheel/*-!@#$%^&*()_+"); // true
+        assert fuzzySearch("c", "c"); // true
         assert !fuzzySearch("cwheeel", "cartwheel"); // false
         assert !fuzzySearch("lw", "cartwheel"); // false
         assert !fuzzySearch("", "cartwheel"); // false
@@ -175,32 +169,68 @@ public class ComplexExamples {
 
     }
 
+    //    static boolean fuzzySearchOld(String key, String string) {
+//        if (key == null || string == null) {
+//            System.out.println("Data can't be null!");
+//            return false;
+//        }
+//        if (key.equals("")) {
+//            System.out.println("Key can't be empty");
+//            return false;
+//        }
+//        String[] keyArray = key.split("");
+//        int keyLength = key.length();
+//        String[] stringArray = string.split("");
+//        int index = 0;
+//
+//        for (String word : stringArray) {
+//            if (word.equals(keyArray[index]) && ++index >= keyLength) return true;
+//        }
+//        return false;
+//    }
     static boolean fuzzySearch(String key, String string) {
         if (key == null || string == null) {
             System.out.println("Data can't be null!");
             return false;
         }
-        String[] keyArray = key.split("");
+        if (key.isEmpty()) {
+            System.out.println("Key can't be empty");
+            return false;
+        }
+        char[] keyArray = key.toCharArray();
         int keyLength = key.length();
-        String[] stringArray = string.split("");
+        char[] stringArray = string.toCharArray();
         int index = 0;
 
-        for (String word : stringArray) {
-            if (word.equals(keyArray[index]) && ++index >= keyLength) return true;
+        for (char word : stringArray) {
+            if (word == keyArray[index] && ++index >= keyLength) return true;
         }
         return false;
     }
+
+//    static int[] getPairOfNumbersSumOld(int[] array, int sum) {
+//        if (array == null) {
+//            System.out.println("Array can't be null!");
+//            return null;
+//        }
+//        int length = array.length;
+//        for (int i = 0; i < length - 1; i++) {
+//            for (int n = i + 1; n < length; n++) {
+//                if (array[i] + array[n] == sum) return new int[]{array[i], array[n]};
+//            }
+//        }
+//        return null;
+//    }
 
     static int[] getPairOfNumbersSum(int[] array, int sum) {
         if (array == null) {
             System.out.println("Array can't be null!");
             return null;
         }
-        int length = array.length;
-        for (int i = 0; i < length - 1; i++) {
-            for (int n = i + 1; n < length; n++) {
-                if (array[i] + array[n] == sum) return new int[]{array[i], array[n]};
-            }
+        HashSet<Integer> hashSet = new HashSet<>();
+        for (int i : array) {
+            if (hashSet.contains(sum - i)) return new int[]{sum - i, i};
+            hashSet.add(i);
         }
         return null;
     }
